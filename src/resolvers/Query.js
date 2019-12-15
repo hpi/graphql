@@ -7,7 +7,6 @@ module.exports = {
 
   },
   todoist: (parent, args, context, info) => {
-    console.log("CONTEXT:", context)
     return fetch(`https://2c99f9c4.ngrok.io/api/get`, {
         method: `GET`,
         headers: {

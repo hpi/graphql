@@ -5,12 +5,12 @@ type Todoist {
 
 type Task {
   id: String
-  projectId: Int
-  sectionId: Int
+  projectId: String
+  sectionId: String
   order: Int
   content: String
   completed: Boolean
-  labelIds: [Int]
+  labelIds: [String]
   priority: Int
   commentCount: Int
   created: String

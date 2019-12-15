@@ -15,7 +15,6 @@ const getSchema = () => {
     .map(String)
     .join('\n')
 
-  console.log("SCHEMAS:", schemas)
   return gql(schemas)
 }
 
