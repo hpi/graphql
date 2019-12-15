@@ -1,0 +1,26 @@
+type Todoist {
+  tasks: [Task]
+  projects: [Project]
+}
+
+type Task {
+  id: String
+  projectId: Int
+  sectionId: Int
+  order: Int
+  content: String
+  completed: Boolean
+  labelIds: [Int]
+  priority: Int
+  commentCount: Int
+  created: String
+  due: String
+  url: String
+  projectName: String
+}
+
+type Project {
+  id: String
+  name: String
+  commentCount: Int
+}

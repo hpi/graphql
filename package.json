@@ -1,0 +1,19 @@
+{
+  "name": "@watchers/theone",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "apollo-server-express": "^2.9.13",
+    "express": "^4.17.1",
+    "express-graphql": "^0.9.0",
+    "fs-extra": "^8.1.0",
+    "graphql": "^14.5.8",
+    "node-fetch": "^2.6.0"
+  }
+}

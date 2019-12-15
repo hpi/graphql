@@ -1,0 +1,8 @@
+type Query {
+  trello: Trello
+  plaid: Plaid
+  todoist: Todoist
+  existio: ExistIO
+  activityWatch: ActivityWatch
+}
+
