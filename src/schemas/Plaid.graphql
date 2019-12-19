@@ -1,3 +1,59 @@
 type Plaid {
-  bleh: String
+  accounts: [PlaidAccount]
+  transactions(accountId: String, weeksAgo: Int = 1): [PlaidTransaction]
+  account(accountId: String!): PlaidAccount
+}
+
+type PlaidAccount {
+  accountId: String!
+  balances: PlaidBalance
+  mask: String
+  name: String
+  officialName: String
+  subtype: String
+  type: String
+}
+
+type PlaidBalance {
+  # Limited to $2,147,483,647
+  # Sorry 1%-ers
+  available: Int
+  current: Int
+  limit: Int
+  isoCurrencyCode: String
+  unofficialCurrencyCode: String
+}
+
+type PlaidTransaction {
+  accountId: String!
+  accountOwner: String
+  amount: Int!
+  category: [String]
+  categoryId: String
+  date: String!
+  isoCurrencyCode: String
+  location: Address
+  name: String!
+  paymentMeta: PlaidPaymentMeta
+  pending: Boolean
+  pendingTransactionId: String
+  transactionId: String
+  transactionType: String
+  unofficialCurrencyCode: String
+}
+
+type Address {
+  address: String
+  city: String
+  region: String
+  postalCode: String
+  country: String
+  lat: Float
+  lon: Float
+}
+
+type PlaidPaymentMeta {
+  referenceNumber: String
+  ppdId: String
+  payee: String
 }

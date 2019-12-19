@@ -1,3 +1,88 @@
 type ExistIO {
-  bleh: String
+  attributes: [ExistIOAttribute]
+  attribute(name: String): ExistIOAttribute
+  insights: [ExistIOValue]
+  insight(basedOn: String): ExistIOValue
+  averages: [ExistIOAverage],
+  average(name: String): ExistIOAverage
+  correlations: [ExistIOCorrelation]
+  correlation(basedOn: String): ExistIOCorrelation
+}
+
+type ExistIOAttribute {
+  attribute: String
+  label: String
+  group: ExistIOAttributeGroup
+  service: String
+  private: Boolean
+  values: [ExistIOValue]
+}
+
+type ExistIOAttributeGroup {
+  name: String
+  label: String
+  priority: Int
+}
+
+type ExistIOValue {
+  value: PrimitiveValue
+  date: String
+  created: String
+  targetDate: String
+  html: String
+  text: String
+  type: ExistIOType
+}
+
+type ExistIOType {
+  name: String
+  period: Int
+  priority: Int
+  attribute: ExistIOAttribute
+}
+
+union PrimitiveValue = String | Int | Boolean
+
+type ExistIOInsight {
+  count: Int
+  next: String
+  previous: String
+  results: [ExistIOValue]
+}
+
+type ExistIOAverage {
+  attribute: String
+  date: String
+  overall: PrimitiveValue
+  monday: PrimitiveValue
+  tuesday: PrimitiveValue
+  wednesday: PrimitiveValue
+  thursday: PrimitiveValue
+  friday: PrimitiveValue
+  saturday: PrimitiveValue
+  sunday: PrimitiveValue
+}
+
+type ExistIOCorrelation {
+  date: String
+  period: Int
+  attribute: String
+  attribute2: String
+  value: Float
+  p: Float
+  percentage: Float
+  stars: Int
+  second_person: String
+  second_person_elements: [String]
+  attribute_category: String
+  strength_description: String
+  stars_description: String
+  description: String
+  occurrence: String
+  rating: ExistIORating
+}
+
+type ExistIORating {
+  positive: Boolean
+  rating: String
 }
