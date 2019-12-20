@@ -35,7 +35,7 @@ module.exports = {
       })
   },
   existio: () => {
-
+    return {}
   },
   activityWatch: () => {
 

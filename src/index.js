@@ -6,7 +6,20 @@ const express = require('express')
 const typeDefs = getSchema()
 const resolvers = getResolvers()
 
-const server = new ApolloServer({ typeDefs, resolvers, playground: true, introspection: true })
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: ({ req }) => {
+    const authorization = req.headers.authorization || ''
+
+    return {
+      authorization
+    }
+  },
+  playground: true,
+  introspection: true
+})
+
 const app = express()
 
 server.applyMiddleware({ app })

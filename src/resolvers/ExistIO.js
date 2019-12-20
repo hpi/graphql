@@ -1,34 +1,96 @@
 const fetch = require(`node-fetch`)
 
+const existIOUrl = ``
 module.exports = {
-  attributes: (parent, args, context, info) => {
+  attributes: async (parent, args, context, info) => {
+    const res = await fetch(`${existIOUrl}/api/attributes/multiple`, {
+      headers: {
+        authorization: context.authorization
+      }
+    })
 
+    return res.json()
   },
 
-  attribute: (parent, args, context, info) => {
+  attribute: async (parent, args, context, info) => {
     const { name } = args
+
+    const res = await fetch(`${existIOUrl}/api/attributes/single?attribute=${name}`, {
+      headers: {
+        authorization: context.authorization
+      }
+    })
+
+    const body = await res.json()
+
+    return body.results
   },
 
-  insights: (parent, args, context, info) => {
+  insights: async (parent, args, context, info) => {
+    const res = await fetch(`${existIOUrl}/api/insights/multiple`, {
+      headers: {
+        authorization: context.authorization
+      }
+    })
 
+    const body = await res.json()
+
+    return body.results
   },
 
-  insight: (parent, args, context, info) => {
+  insight: async (parent, args, context, info) => {
     const { basedOn } = args
+
+    const res = await fetch(`${existIOUrl}/api/insights/single?attribute=${basedOn}`, {
+      headers: {
+        authorization: context.authorization
+      }
+    })
+
+    const body = await res.json()
+
+    return body.results[0]
   },
 
-  averages: (parent, args, context, info) => {
+  averages: async (parent, args, context, info) => {
+    const res = await fetch(`${existIOUrl}/api/averages/multiple`)
 
+    return res.json()
   },
 
-  average: (parent, args, context, info) => {
+  average: async (parent, args, context, info) => {
     const { name } = args
+
+    const res = await fetch(`${existIOUrl}/api/averages/single?attribute=${name}`, {
+      headers: {
+        authorization: context.authorization
+      }
+    })
+
+    return res.json()
   },
 
-  correlations: (parent, args, context, info) => {
-  }
+  correlations: async (parent, args, context, info) => {
+    const res = await fetch(`${existIOUrl}/api/correlations/multiple`, {
+      headers: {
+        authorization: context.authorization
+      }
+    })
 
-  correlation: (parent, args, context, info) => {
+    return res.json()
+  },
+
+  correlation: async (parent, args, context, info) => {
     const { basedOn } = args
+
+    const res = await fetch(`${existIOUrl}/api/correlations/single?attribute=${basedOn}`, {
+      headers: {
+        authorization: context.authorization
+      }
+    })
+
+    const body = await res.json()
+
+    return body.results
   }
 }

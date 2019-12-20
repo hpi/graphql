@@ -1,12 +1,12 @@
 type ExistIO {
   attributes: [ExistIOAttribute]
-  attribute(name: String): ExistIOAttribute
+  attribute(name: String): [ExistIOValue]
   insights: [ExistIOValue]
   insight(basedOn: String): ExistIOValue
   averages: [ExistIOAverage],
   average(name: String): ExistIOAverage
   correlations: [ExistIOCorrelation]
-  correlation(basedOn: String): ExistIOCorrelation
+  correlation(basedOn: String): [ExistIOCorrelation]
 }
 
 type ExistIOAttribute {
@@ -25,7 +25,7 @@ type ExistIOAttributeGroup {
 }
 
 type ExistIOValue {
-  value: PrimitiveValue
+  value: String
   date: String
   created: String
   targetDate: String
@@ -41,8 +41,6 @@ type ExistIOType {
   attribute: ExistIOAttribute
 }
 
-union PrimitiveValue = String | Int | Boolean
-
 type ExistIOInsight {
   count: Int
   next: String
@@ -53,14 +51,14 @@ type ExistIOInsight {
 type ExistIOAverage {
   attribute: String
   date: String
-  overall: PrimitiveValue
-  monday: PrimitiveValue
-  tuesday: PrimitiveValue
-  wednesday: PrimitiveValue
-  thursday: PrimitiveValue
-  friday: PrimitiveValue
-  saturday: PrimitiveValue
-  sunday: PrimitiveValue
+  overall: String
+  monday: String
+  tuesday: String
+  wednesday: String
+  thursday: String
+  friday: String
+  saturday: String
+  sunday: String
 }
 
 type ExistIOCorrelation {
