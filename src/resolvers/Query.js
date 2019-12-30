@@ -6,38 +6,41 @@ const plaidUrl = process.env.PLAID_URL
 const awUrl = process.env.AW_URL
 
 module.exports = {
-  trello: (parent, args, context, info) => {
-    return fetch(`${trelloUrl}/api/dump`, {
+  trello: async (parent, args, context, info) => {
+    const res = await fetch(`${trelloUrl}/api/dump`, {
         method: `GET`,
-        headers: {
-          'Authorization': context.authorization
-        }
+        headers: context
       })
-      .then((res) => {
-        return res.json()
-      })
+
+    const boards = await res.json()
+
+    return { boards }
   },
-  plaid: () => {
-    return fetch(`${plaidUrl}/api/dump`, {
+  plaid: async (parent, args, context, info) => {
+    const res = await fetch(`${plaidUrl}/api/dump`, {
         method: `GET`,
-        headers: {
-          'Authorization': context.authorization
-        }
+        headers: context
       })
-      .then((res) => {
-        return res.json()
-      })
+
+    const body = await res.json()
+
+    body._transactions = Object.assign({}, body.transactions)
+    body._accounts = Object.assign({}, body.accounts)
+
+    body.transactions = [].concat(...Object.values(body.transactions))
+    body.accounts = [].concat(...Object.values(body.accounts))
+
+    return body
   },
-  todoist: (parent, args, context, info) => {
-    return fetch(`${todoistUrl}/api/dump`, {
+  todoist: async (parent, args, context, info) => {
+    const res = await fetch(`${todoistUrl}/api/dump`, {
         method: `GET`,
-        headers: {
-          'Authorization': context.authorization
-        }
+        headers: context
       })
-      .then((res) => {
-        return res.json()
-      })
+
+    const body = await res.json()
+
+    return body
   },
   existio: () => {
     return {}

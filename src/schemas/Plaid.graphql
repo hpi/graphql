@@ -5,7 +5,7 @@ type Plaid {
 }
 
 type PlaidAccount {
-  accountId: String!
+  accountId: String
   balances: PlaidBalance
   mask: String
   name: String

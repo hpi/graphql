@@ -1,4 +1,8 @@
 type Trello {
+  boards: [TrelloBoard]
+}
+
+type TrelloBoard {
   name: String
   desc: String
   descData: String

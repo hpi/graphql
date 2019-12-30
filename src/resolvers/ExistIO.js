@@ -5,9 +5,7 @@ const existIOUrl = process.env.EXISTIO_URL
 module.exports = {
   attributes: async (parent, args, context, info) => {
     const res = await fetch(`${existIOUrl}/api/attributes/multiple`, {
-      headers: {
-        authorization: context.authorization
-      }
+      headers: context
     })
 
     return res.json()
@@ -17,9 +15,7 @@ module.exports = {
     const { name } = args
 
     const res = await fetch(`${existIOUrl}/api/attributes/single?attribute=${name}`, {
-      headers: {
-        authorization: context.authorization
-      }
+      headers: context
     })
 
     const body = await res.json()
@@ -29,9 +25,7 @@ module.exports = {
 
   insights: async (parent, args, context, info) => {
     const res = await fetch(`${existIOUrl}/api/insights/multiple`, {
-      headers: {
-        authorization: context.authorization
-      }
+      headers: context
     })
 
     const body = await res.json()
@@ -43,9 +37,7 @@ module.exports = {
     const { basedOn } = args
 
     const res = await fetch(`${existIOUrl}/api/insights/single?attribute=${basedOn}`, {
-      headers: {
-        authorization: context.authorization
-      }
+      headers: context
     })
 
     const body = await res.json()
@@ -54,7 +46,9 @@ module.exports = {
   },
 
   averages: async (parent, args, context, info) => {
-    const res = await fetch(`${existIOUrl}/api/averages/multiple`)
+    const res = await fetch(`${existIOUrl}/api/averages/multiple`, {
+      headers: context
+    })
 
     return res.json()
   },
@@ -63,9 +57,7 @@ module.exports = {
     const { name } = args
 
     const res = await fetch(`${existIOUrl}/api/averages/single?attribute=${name}`, {
-      headers: {
-        authorization: context.authorization
-      }
+      headers: context
     })
 
     return res.json()
@@ -73,9 +65,7 @@ module.exports = {
 
   correlations: async (parent, args, context, info) => {
     const res = await fetch(`${existIOUrl}/api/correlations/multiple`, {
-      headers: {
-        authorization: context.authorization
-      }
+      headers: context
     })
 
     return res.json()
@@ -85,9 +75,7 @@ module.exports = {
     const { basedOn } = args
 
     const res = await fetch(`${existIOUrl}/api/correlations/single?attribute=${basedOn}`, {
-      headers: {
-        authorization: context.authorization
-      }
+      headers: context
     })
 
     const body = await res.json()

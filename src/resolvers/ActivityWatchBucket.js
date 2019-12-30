@@ -21,9 +21,7 @@ module.exports = {
 
     const res = await fetch(`${awUrl}/api/v1/get/${id}/${(!after && !before && `today`) || ``}?${queryString}`, {
       query: args,
-      headers: {
-        authorization: context.authorization
-      }
+      headers: context
     })
 
     const { data } = await res.json()
