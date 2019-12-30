@@ -10,5 +10,8 @@ module.exports = {
   },
   commentCount: (parent, args, context, info) => {
     return parent.comment_count
+  },
+  due: (parent) => {
+    return parent.due && (parent.due.datetime || parent.due.date) || null
   }
 }

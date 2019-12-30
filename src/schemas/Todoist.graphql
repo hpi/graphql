@@ -1,6 +1,7 @@
 type Todoist {
   tasks: [Task]
   projects: [Project]
+  tasksToday(projectName: String): [Task]
 }
 
 type Task {
