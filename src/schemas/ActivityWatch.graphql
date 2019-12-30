@@ -1,3 +1,21 @@
 type ActivityWatch {
-  bleh: String
+  buckets: [ActivityWatchBucket]
+  bucket(id: String): [ActivityWatchBucketActivity]
+}
+
+type ActivityWatchBucket {
+  id: String
+  activity: [ActivityWatchBucketActivity]
+}
+
+type ActivityWatchBucketActivity {
+  id: Int
+  timestamp: String
+  duration: Float
+  data: ActivityWatchData
+}
+
+type ActivityWatchData {
+  app: String
+  title: String
 }

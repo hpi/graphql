@@ -1,11 +1,16 @@
 const fetch = require('node-fetch')
 
+const todoistUrl = process.env.TODOIST_URL
+const trelloUrl = process.env.TRELLO_URL
+const plaidUrl = process.env.PLAID_URL
+const awUrl = process.env.AW_URL
+
 module.exports = {
-  trello: () => {
-    return fetch(`https://b9fe1c85.ngrok.io/api/get`, {
+  trello: (parent, args, context, info) => {
+    return fetch(`${trelloUrl}/api/dump`, {
         method: `GET`,
         headers: {
-          'Authorization': `Bearer`
+          'Authorization': context.authorization
         }
       })
       .then((res) => {
@@ -13,10 +18,10 @@ module.exports = {
       })
   },
   plaid: () => {
-    return fetch(`https://b9fe1c85.ngrok.io/api/get`, {
+    return fetch(`${plaidUrl}/api/dump`, {
         method: `GET`,
         headers: {
-          'Authorization': `Bearer`
+          'Authorization': context.authorization
         }
       })
       .then((res) => {
@@ -24,10 +29,10 @@ module.exports = {
       })
   },
   todoist: (parent, args, context, info) => {
-    return fetch(`https://2c99f9c4.ngrok.io/api/get`, {
+    return fetch(`${todoistUrl}/api/dump`, {
         method: `GET`,
         headers: {
-          'Authorization': `Bearer`
+          'Authorization': context.authorization
         }
       })
       .then((res) => {
@@ -38,6 +43,6 @@ module.exports = {
     return {}
   },
   activityWatch: () => {
-
+    return {}
   }
 }

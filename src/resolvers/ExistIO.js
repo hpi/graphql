@@ -1,6 +1,7 @@
 const fetch = require(`node-fetch`)
 
-const existIOUrl = ``
+const existIOUrl = process.env.EXISTIO_URL
+
 module.exports = {
   attributes: async (parent, args, context, info) => {
     const res = await fetch(`${existIOUrl}/api/attributes/multiple`, {
