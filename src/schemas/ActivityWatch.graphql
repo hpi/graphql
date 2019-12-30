@@ -1,11 +1,11 @@
 type ActivityWatch {
   buckets: [ActivityWatchBucket]
-  bucket(id: String): [ActivityWatchBucketActivity]
+  bucket(id: String, after: String, before: String): [ActivityWatchBucketActivity]
 }
 
 type ActivityWatchBucket {
   id: String
-  activity: [ActivityWatchBucketActivity]
+  activity(after: String, before: String): [ActivityWatchBucketActivity]
 }
 
 type ActivityWatchBucketActivity {

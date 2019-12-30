@@ -2,6 +2,14 @@ const fetch = require(`node-fetch`)
 
 const awUrl = process.env.AW_URL
 
+const buildQueryString = (query) => {
+  const queryStrings = Object.keys(query).map((key) => {
+    return `${key}=${query[key]}`
+  })
+
+  return queryStrings.join(`&`)
+}
+
 module.exports = {
   buckets: async (parent, args, context, info) => {
     const res = await fetch(`${awUrl}/api/v1/buckets`, {
@@ -18,19 +26,21 @@ module.exports = {
       }
     })
 
-    return body
+    return formattedBuckets
   },
   bucket: async (parent, args, context, info) => {
-    const { id } = args
+    const { id, before, after } = args
 
-    const res = await fetch(`${awUrl}/api/v1/get/${id}/today`, {
+    const queryString = buildQueryString({ before, after })
+
+    const res = await fetch(`${awUrl}/api/v1/get/${id}/${(!after && `today`) || ``}?${queryString}`, {
       headers: {
         authorization: context.authorization
       }
     })
 
-    const body = await res.json()
+    const { data } = await res.json()
 
-    return body
+    return data
   }
 }
