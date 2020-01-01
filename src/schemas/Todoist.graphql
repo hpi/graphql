@@ -1,10 +1,11 @@
 type Todoist {
-  tasks: [Task]
-  projects: [Project]
-  tasksToday(projectName: String): [Task]
+  tasks: [TodoistTask]
+  projects: [TodoistProject]
+  tasksToday(projectName: String): [TodoistTask]
+  activity(projectId: String): [TodoistActivity]
 }
 
-type Task {
+type TodoistTask {
   id: String
   projectId: String
   sectionId: String
@@ -18,10 +19,29 @@ type Task {
   due: String
   url: String
   projectName: String
+  comments: [TodoistComment]
 }
 
-type Project {
+type TodoistActivity {
+  parentProjectId: String
+  eventType: String
+  objectType: String
+  initiatorId: String
+  parentItemId: String
+  eventDate: String
+  content: String
+  hasBeenRescheduled: Boolean
+  id: String
+}
+
+type TodoistProject {
   id: String
   name: String
   commentCount: Int
+}
+
+type TodoistComment {
+  id: String
+  posted: String
+  content: String
 }

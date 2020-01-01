@@ -1,4 +1,7 @@
 const moment = require(`moment`)
+const fetch = require(`node-fetch`)
+
+const todoistUrl = process.env.TODOIST_URL
 
 module.exports = {
   tasksToday: (parent, args, context, info) => {
@@ -13,6 +16,22 @@ module.exports = {
       if (desiredProject && task.projectName !== desiredProject) return false
 
       return true
+    })
+  },
+  activity: async (parent, args, context, info) => {
+    const { projectId} = args
+
+    const query = projectId ? `?projectId=${projectId}` : ``
+    const res = await fetch(`${todoistUrl}/api/activity${query}`, {
+        method: `GET`,
+        headers: context
+      })
+
+    let events = await res.json()
+
+    const startOfDay = moment().startOf(`day`)
+    return events.filter((event) => {
+      return startOfDay < moment(event.event_date)
     })
   }
 }

@@ -15,12 +15,14 @@ const server = new ApolloServer({
   context: ({ req }) => {
     const {
       authorization,
-      existAccessToken
+      existaccesstoken: existAccessToken,
+      todoistaccesstoken: todoistAccessToken
     } = req.headers
 
     return {
       authorization,
-      [`x-exist-access-token`]: existAccessToken
+      [`x-exist-access-token`]: existAccessToken,
+      [`x-todoist-access-token`]: todoistAccessToken
     }
   },
   playground: true,
