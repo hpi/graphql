@@ -1,3 +1,7 @@
+const fetch = require(`node-fetch`)
+
+const todoistUrl = process.env.TODOIST_URL
+
 module.exports = {
   parentProjectId: (parent, args, context, info) => {
     return parent.parent_project_id
@@ -7,6 +11,9 @@ module.exports = {
   },
   objectType: (parent, args, context, info) => {
     return parent.object_type
+  },
+  objectId: (parent, args, context, info) => {
+    return parent.object_id
   },
   initiatorId: (parent, args, context, info) => {
     return parent.initiator_id
@@ -21,9 +28,19 @@ module.exports = {
     return parent.extra_data.content
   },
   hasBeenRescheduled: (parent, args, context, info) => {
-    const { extra_data: { dueDate: due_date, lastDueDate: last_due_date } } = parent
+    const { extra_data: { due_date: dueDate, last_due_date: lastDueDate } } = parent
 
     return dueDate && lastDueDate && dueDate !== lastDueDate
   },
+  comments: async (parent, args, context) => {
+    const res = await fetch(`${todoistUrl}/api/task/${parent.object_id}/comments`, {
+      method: `GET`,
+      headers: context
+    })
+
+    const { comments } = await res.json()
+
+    return comments
+  }
 
 }
