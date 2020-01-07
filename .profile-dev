@@ -1,0 +1,5 @@
+export TODOIST_URL=http://localhost:3104
+export EXISTIO_URL=http://localhost:3101
+export TRELLO_URL=http://localhost:3105
+export PLAID_URL=http://localhost:3103
+export AW_URL=http://localhost:3080

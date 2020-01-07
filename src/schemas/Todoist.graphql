@@ -1,7 +1,7 @@
 type Todoist {
   tasks: [TodoistTask]
   projects: [TodoistProject]
-  tasksToday(projectName: String): [TodoistTask]
+  tasksToday(projectId: String): [TodoistTask]
   activity(projectId: String): [TodoistActivity]
 }
 

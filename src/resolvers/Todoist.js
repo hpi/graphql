@@ -6,14 +6,14 @@ const todoistUrl = process.env.TODOIST_URL
 module.exports = {
   tasksToday: (parent, args, context, info) => {
     const { tasks } = parent
-    const { projectName: desiredProject } = args
+    const { projectId: desiredProject } = args
 
     return tasks.filter((task) => {
       if (!task.due || !task.due.date) return false
 
       if (moment(task.due.date) > moment().endOf(`day`)) return false
 
-      if (desiredProject && task.projectName !== desiredProject) return false
+      if (desiredProject && String(task.project_id) !== String(desiredProject)) return false
 
       return true
     })

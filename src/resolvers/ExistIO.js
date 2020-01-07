@@ -1,3 +1,4 @@
+const moment = require(`moment`)
 const fetch = require(`node-fetch`)
 
 const existIOUrl = process.env.EXISTIO_URL
@@ -12,15 +13,21 @@ module.exports = {
   },
 
   attribute: async (parent, args, context, info) => {
-    const { name } = args
+    const { name, date} = args
 
     const res = await fetch(`${existIOUrl}/api/attributes/single?attribute=${name}`, {
       headers: context
     })
 
-    const body = await res.json()
+    let { results } = await res.json()
 
-    return body.results
+    if (date) {
+      results = results.filter((attr) => {
+        return moment(attr.date).isSame(date)
+      })
+    }
+
+    return results
   },
 
   insights: async (parent, args, context, info) => {

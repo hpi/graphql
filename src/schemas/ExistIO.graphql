@@ -1,6 +1,6 @@
 type ExistIO {
   attributes: [ExistIOAttribute]
-  attribute(name: String): [ExistIOValue]
+  attribute(name: String, date: String): [ExistIOValue]
   insights: [ExistIOValue]
   insight(basedOn: String): ExistIOValue
   averages: [ExistIOAverage],
@@ -16,6 +16,7 @@ type ExistIOAttribute {
   service: String
   private: Boolean
   values: [ExistIOValue]
+  value: ExistIOValue
 }
 
 type ExistIOAttributeGroup {
@@ -31,6 +32,7 @@ type ExistIOValue {
   targetDate: String
   html: String
   text: String
+  name: String
   type: ExistIOType
 }
 
@@ -83,4 +85,9 @@ type ExistIOCorrelation {
 type ExistIORating {
   positive: Boolean
   rating: String
+}
+
+type ExistIOUpdate {
+  success: [ExistIOValue]
+  failure: [ExistIOValue]
 }
