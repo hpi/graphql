@@ -39,6 +39,8 @@ type TodoistActivity {
 type TodoistProject {
   id: String
   name: String
+  tasksToday: [TodoistTask]
+  activity: [TodoistActivity]
   commentCount: Int
 }
 
