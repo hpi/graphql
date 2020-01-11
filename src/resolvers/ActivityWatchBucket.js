@@ -1,3 +1,4 @@
+const moment = require(`moment`)
 const fetch = require(`node-fetch`)
 
 const awUrl = process.env.AW_URL
@@ -14,18 +15,41 @@ const buildQueryString = (query) => {
 
 module.exports = {
   activity: async (parent, args, context, info) => {
-    const { before, after } = args
+    const { before = moment(), after = moment(`2019-01-01`) } = args
     const { id } = parent
 
-    const queryString = buildQueryString({ before, after })
+    let windows = []
+    let neededWindows = moment(before).diff(moment(after), `hours`) + 1
 
-    const res = await fetch(`${awUrl}/api/v1/get/${id}/${(!after && !before && `today`) || ``}?${queryString}`, {
-      query: args,
-      headers: context
+    do {
+      const startOfWindow = (windows.length !== 0 ? moment(windows.slice(-1)[0][1]) : moment(after)).add(1, `second`)
+      let endOfWindow = moment(startOfWindow).add(1, `hour`)
+
+      if (moment(before).isBefore(endOfWindow)) {
+        endOfWindow = moment(before)
+      }
+
+      windows.push([ startOfWindow.format(), endOfWindow.format() ])
+    } while (windows.length < neededWindows)
+
+    const eventsPromises = windows.map(([ before, after ]) => {
+      const queryString = buildQueryString({ before, after })
+
+      return fetch(`${awUrl}/api/buckets/${id}/events?${queryString}`, {
+        headers: context
+      })
     })
 
-    const { data } = await res.json()
+    let events = await Promise.all(eventsPromises)
 
-    return data
+    events = events.map((response) => {
+      return response.json()
+    })
+
+    events = await Promise.all(events)
+    events = events.map(({ data }) => data)
+    events = [].concat(...events)
+
+    return events
   },
 }

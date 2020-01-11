@@ -12,11 +12,11 @@ const buildQueryString = (query) => {
 
 module.exports = {
   buckets: async (parent, args, context, info) => {
-    const res = await fetch(`${awUrl}/api/v1/buckets`, {
+    const res = await fetch(`${awUrl}/api/buckets`, {
       headers: context
     })
 
-    let { buckets } = await res.json()
+    let [ buckets ] = await res.json()
 
     const formattedBuckets = buckets.map((bucketId) => {
       return {
@@ -29,9 +29,7 @@ module.exports = {
   bucket: async (parent, args, context, info) => {
     const { id, before, after } = args
 
-    const queryString = buildQueryString({ before, after })
-
-    const res = await fetch(`${awUrl}/api/v1/get/${id}/${(!after && `today`) || ``}?${queryString}`, {
+    const res = await fetch(`${awUrl}/api/buckets/${id}`, {
       headers: context
     })
 

@@ -1,6 +1,6 @@
 type ActivityWatch {
   buckets: [ActivityWatchBucket]
-  bucket(id: String, after: String, before: String): [ActivityWatchBucketActivity]
+  bucket(id: String): ActivityWatchBucket
 }
 
 type ActivityWatchBucket {
@@ -18,4 +18,10 @@ type ActivityWatchBucketActivity {
 type ActivityWatchData {
   app: String
   title: String
+  status: String
+  url: String
+  audible: Boolean
+  tabCount: Int,
+  productivity: String
 }
+
