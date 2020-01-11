@@ -3,6 +3,16 @@ const fetch = require(`node-fetch`)
 
 const todoistUrl = process.env.TODOIST_URL
 
+const queryVariables = (query) => {
+  const queryItems = Object.keys(query).map((key) => {
+    if (!query[key]) return null
+
+    return `${key}=${query[key]}`
+  }).filter(Boolean)
+
+  return `?${queryItems.join(`&`)}`
+}
+
 module.exports = {
   tasksToday: async (parent, args, context, info) => {
     const { id } = parent
@@ -25,7 +35,8 @@ module.exports = {
   activity: async (parent, args, context, info) => {
     const { id } = parent
 
-    const res = await fetch(`${todoistUrl}/api/activity?projectId=${id}`, {
+    const url = projectId ? `${todoistUrl}/api/projects/${projectId}/activity` : `${todoistUrl}/api/projects/activity`
+    const res = await fetch(url, {
         method: `GET`,
         headers: context
       })
@@ -36,5 +47,21 @@ module.exports = {
     return events.filter((event) => {
       return startOfDay < moment(event.event_date)
     })
-  }
+  },
+  completed: async (parent, args, context, info) => {
+    const { projectId, since, until } = args
+
+    const query = queryVariables({ since, until })
+
+    const url = projectId ? `${todoistUrl}/api/projects/${projectId}/completed` : `${todoistUrl}/api/completed`
+    const res = await fetch(`${url}${query}`, {
+        method: `GET`,
+        headers: context
+      })
+
+    let events = await res.json()
+
+    return events
+  },
+
 }

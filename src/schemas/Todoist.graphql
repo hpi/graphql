@@ -3,6 +3,7 @@ type Todoist {
   projects: [TodoistProject]
   tasksToday(projectId: String): [TodoistTask]
   activity(projectId: String): [TodoistActivity]
+  completed(projectId: String, until: String, since: String): [TodoistCompleted]
 }
 
 type TodoistTask {
@@ -20,6 +21,16 @@ type TodoistTask {
   url: String
   projectName: String
   comments: [TodoistComment]
+}
+
+type TodoistCompleted {
+  content: String
+  metadata: String
+  userId: String
+  taskId: String
+  projectId: String
+  completedDate: String
+  id: String
 }
 
 type TodoistActivity {
@@ -41,6 +52,7 @@ type TodoistProject {
   name: String
   tasksToday: [TodoistTask]
   activity: [TodoistActivity]
+  completed(until: String, since: String): [TodoistCompleted]
   commentCount: Int
 }
 

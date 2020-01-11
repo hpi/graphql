@@ -19,12 +19,13 @@ module.exports = {
     return parent.due && (parent.due.datetime || parent.due.date) || null
   },
   comments: async (parent, args, context) => {
-    const res = await fetch(`${todoistUrl}/api/task/${parent.id}/comments`, {
+    const res = await fetch(`${todoistUrl}/api/tasks/${parent.id}/comments`, {
       method: `GET`,
       headers: context
     })
 
-    const { comments } = await res.json()
+    const comments = await res.json()
+    console.log("COMMENTS:", comments)
 
     return comments
   }
