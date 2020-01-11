@@ -10,6 +10,7 @@ module.exports = {
     if (parent.app) {
       url = `${awUrl}/api/productivity/app/${parent.app}`
     } else if (parent.url) {
+      // We need the hostname without all of the other cruft
       let productivityUrl = new URL(parent.url)
       productivityUrl = productivityUrl.hostname
 
