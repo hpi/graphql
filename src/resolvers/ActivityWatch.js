@@ -27,14 +27,6 @@ module.exports = {
     return formattedBuckets
   },
   bucket: async (parent, args, context, info) => {
-    const { id, before, after } = args
-
-    const res = await fetch(`${awUrl}/api/buckets/${id}`, {
-      headers: context
-    })
-
-    const { data } = await res.json()
-
-    return data
+    return { id: args.id }
   }
 }

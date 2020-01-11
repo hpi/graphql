@@ -32,11 +32,15 @@ module.exports = {
       windows.push([ startOfWindow.format(), endOfWindow.format() ])
     } while (windows.length < neededWindows)
 
-    const eventsPromises = windows.map(([ before, after ]) => {
-      const queryString = buildQueryString({ before, after })
+    const eventsPromises = windows.map(([ before, after ], index) => {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          const queryString = buildQueryString({ before: after, after: before })
 
-      return fetch(`${awUrl}/api/buckets/${id}/events?${queryString}`, {
-        headers: context
+          return resolve(fetch(`${awUrl}/api/buckets/${id}/events?${queryString}`, {
+            headers: context
+          }))
+        }, 1000 * index)
       })
     })
 
@@ -49,6 +53,12 @@ module.exports = {
     events = await Promise.all(events)
     events = events.map(({ data }) => data)
     events = [].concat(...events)
+
+    if (id.includes(`-window_`)) {
+      events = events.filter(({ data: { app } }) => {
+        return app !== `Firefox`
+      })
+    }
 
     return events
   },
