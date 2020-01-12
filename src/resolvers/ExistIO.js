@@ -5,7 +5,7 @@ const existIOUrl = process.env.EXISTIO_URL
 
 module.exports = {
   attributes: async (parent, args, context, info) => {
-    const res = await fetch(`${existIOUrl}/api/attributes/multiple`, {
+    const res = await fetch(`${existIOUrl}/api/get/attributes/multiple`, {
       headers: context
     })
 
@@ -15,7 +15,7 @@ module.exports = {
   attribute: async (parent, args, context, info) => {
     const { name, date} = args
 
-    const res = await fetch(`${existIOUrl}/api/attributes/single?attribute=${name}`, {
+    const res = await fetch(`${existIOUrl}/api/get/attributes/single?attribute=${name}`, {
       headers: context
     })
 
@@ -31,7 +31,7 @@ module.exports = {
   },
 
   insights: async (parent, args, context, info) => {
-    const res = await fetch(`${existIOUrl}/api/insights/multiple`, {
+    const res = await fetch(`${existIOUrl}/api/get/insights/multiple`, {
       headers: context
     })
 
@@ -43,7 +43,7 @@ module.exports = {
   insight: async (parent, args, context, info) => {
     const { basedOn } = args
 
-    const res = await fetch(`${existIOUrl}/api/insights/single?attribute=${basedOn}`, {
+    const res = await fetch(`${existIOUrl}/api/get/insights/single?attribute=${basedOn}`, {
       headers: context
     })
 
@@ -53,7 +53,7 @@ module.exports = {
   },
 
   averages: async (parent, args, context, info) => {
-    const res = await fetch(`${existIOUrl}/api/averages/multiple`, {
+    const res = await fetch(`${existIOUrl}/api/get/averages/multiple`, {
       headers: context
     })
 
@@ -63,7 +63,7 @@ module.exports = {
   average: async (parent, args, context, info) => {
     const { name } = args
 
-    const res = await fetch(`${existIOUrl}/api/averages/single?attribute=${name}`, {
+    const res = await fetch(`${existIOUrl}/api/get/averages/single?attribute=${name}`, {
       headers: context
     })
 
@@ -71,7 +71,7 @@ module.exports = {
   },
 
   correlations: async (parent, args, context, info) => {
-    const res = await fetch(`${existIOUrl}/api/correlations/multiple`, {
+    const res = await fetch(`${existIOUrl}/api/get/correlations/multiple`, {
       headers: context
     })
 
@@ -81,7 +81,7 @@ module.exports = {
   correlation: async (parent, args, context, info) => {
     const { basedOn } = args
 
-    const res = await fetch(`${existIOUrl}/api/correlations/single?attribute=${basedOn}`, {
+    const res = await fetch(`${existIOUrl}/api/get/correlations/single?attribute=${basedOn}`, {
       headers: context
     })
 
