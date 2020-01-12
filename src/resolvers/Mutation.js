@@ -5,9 +5,24 @@ const existIOUrl = process.env.EXISTIO_URL
 
 module.exports = {
   updateAttribute: async (parent, args, context, info) => {
+    let attrValue = 0
+    if (args.addToExisting) {
+      const res = await fetch(`${existIOUrl}/api/get/attributes/single?attribute=${args.name}&date=${moment(args.date).format()}`, {
+          headers: Object.assign({ 'Content-Type': `application/json` }, context),
+      })
+
+      const { results: [ attr ] } = await res.json()
+
+      attrValue = attr.value || 0
+    }
+
     console.log(`updating attribute `, existIOUrl, args)
-    const res = await fetch(`${existIOUrl}/api/update-attribute`, {
-        method: 'POST',
+
+    args.value = Number(args.value)
+    args.value += Number(attrValue)
+
+    const res = await fetch(`${existIOUrl}/api/attributes/update/`, {
+        method: `POST`,
         headers: Object.assign({ 'Content-Type': `application/json` }, context),
         body: JSON.stringify(args)
     })
@@ -17,5 +32,6 @@ module.exports = {
     console.log(`updated attribute: `, body)
 
     return body
-  }
+  },
+
 }
