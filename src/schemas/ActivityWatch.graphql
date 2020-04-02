@@ -5,7 +5,8 @@ type ActivityWatch {
 
 type ActivityWatchBucket {
   id: String
-  activity(after: String, before: String): [ActivityWatchBucketActivity]
+  activity(date: String): [ActivityWatchBucketActivity]
+  summarizedToday: [ActivityWatchSummarized]
 }
 
 type ActivityWatchBucketActivity {
@@ -13,6 +14,11 @@ type ActivityWatchBucketActivity {
   timestamp: String
   duration: Float
   data: ActivityWatchData
+}
+
+type ActivityWatchSummarized {
+  id: Int
+  timestamp: String
 }
 
 type ActivityWatchData {

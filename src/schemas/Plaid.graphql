@@ -27,7 +27,7 @@ type PlaidBalance {
 type PlaidTransaction {
   accountId: String!
   accountOwner: String
-  amount: Int!
+  amount: Float!
   category: [String]
   categoryId: String
   date: String!

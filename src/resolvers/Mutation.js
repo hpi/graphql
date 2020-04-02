@@ -11,9 +11,16 @@ module.exports = {
           headers: Object.assign({ 'Content-Type': `application/json` }, context),
       })
 
-      const { results: [ attr ] } = await res.json()
+      const { results } = await res.json()
 
-      attrValue = attr.value || 0
+      console.log(`mutation results:`, results)
+      if (results && results.length > 0) {
+
+        const attr = results[0]
+
+        console.log("ATTR:", attr.value)
+        attrValue = attr.value || 0
+      }
     }
 
     console.log(`updating attribute `, existIOUrl, args)

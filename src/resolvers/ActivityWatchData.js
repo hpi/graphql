@@ -25,8 +25,14 @@ module.exports = {
       headers: context
     })
 
-    const { classification } = await res.json()
+    try {
+      const { classification } = await res.json()
 
-    return classification
+      return classification
+    } catch (e) {
+      console.log("EE:", e)
+
+      return `neutral`
+    }
   }
 }
