@@ -1,3 +1,4 @@
 type Mutation {
   updateAttribute(name: String!, value: String!, date: String!, addToExisting: Boolean): ExistIOUpdate
+  addShipment(name: String!, trackingCode: String!): EasyPostAdd
 }

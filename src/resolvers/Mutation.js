@@ -2,6 +2,7 @@ const moment = require(`moment`)
 const fetch = require(`node-fetch`)
 
 const existIOUrl = process.env.EXISTIO_URL
+const easyPostUrl = process.env.EASYPOST_URL
 
 module.exports = {
   updateAttribute: async (parent, args, context, info) => {
@@ -18,7 +19,6 @@ module.exports = {
 
         const attr = results[0]
 
-        console.log("ATTR:", attr.value)
         attrValue = attr.value || 0
       }
     }
@@ -29,9 +29,9 @@ module.exports = {
     args.value += Number(attrValue)
 
     const res = await fetch(`${existIOUrl}/api/attributes/update/`, {
-        method: `POST`,
-        headers: Object.assign({ 'Content-Type': `application/json` }, context),
-        body: JSON.stringify(args)
+      method: `POST`,
+      headers: Object.assign({ 'Content-Type': `application/json` }, context),
+      body: JSON.stringify(args)
     })
 
     const body = await res.json()
@@ -41,4 +41,17 @@ module.exports = {
     return body
   },
 
+  addShipment: async (parent, args, context, info) => {
+    const res = await fetch(`${easyPostUrl}/api/packages/add`, {
+      method: `POST`,
+      headers: Object.assign({ 'Content-Type': `application/json` }, context),
+      body: JSON.stringify(args)
+    })
+
+    const body = await res.json()
+
+    console.log(`added shipment: `, body)
+
+    return body
+  }
 }

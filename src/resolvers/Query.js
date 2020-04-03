@@ -48,4 +48,7 @@ module.exports = {
   activityWatch: () => {
     return {}
   },
+  easyPost: () => {
+    return {}
+  },
 }

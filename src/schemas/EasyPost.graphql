@@ -1,0 +1,31 @@
+type EasyPostAdd {
+  id: String!
+}
+
+type EasyPost {
+  shipments: [EasyPostShipment]
+  shipment(trackingCode: String): EasyPostShipment
+}
+
+type EasyPostShipment {
+  id: String!
+  trackingCode: String
+  status: String
+  weight: Float
+  estimatedDelivery: String
+  carrier: String
+  trackingDetails: [EasyPostTrackingDetails]
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type EasyPostTrackingDetails {
+  message: String
+  description: String
+  statusDetail: String
+  datetime: DateTime
+  source: String
+  carrierCode: String
+  trackingLocation: Location
+}
+
