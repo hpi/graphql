@@ -2,6 +2,7 @@ const { ApolloServer } = require('apollo-server-express')
 const getResolvers = require('./resolvers')
 const getSchema = require('./schemas')
 const express = require('express')
+const debug = require(`debug`)(`qnzl:watchers:graph:index`)
 const https = require(`https`)
 const http = require(`http`)
 const fs = require(`fs`)
@@ -9,6 +10,7 @@ const fs = require(`fs`)
 const typeDefs = getSchema()
 const resolvers = getResolvers()
 
+debug(`creeating the graphql server`)
 const server = new ApolloServer({
   typeDefs,
   resolvers,
@@ -34,6 +36,8 @@ const app = express()
 server.applyMiddleware({ app })
 
 const port = process.env.PORT || 4000
+
+debug(`creating the express server on port ${port}`)
 
 if ('production' === process.env.ENV) {
   https.createServer({

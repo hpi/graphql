@@ -1,4 +1,5 @@
 const fetch = require(`node-fetch`)
+const debug = require(`debug`)(`qnzl:watchers:graph:aw-data`)
 const { URL } = require(`url`)
 
 const awUrl = process.env.AW_URL
@@ -21,6 +22,8 @@ module.exports = {
       return `neutral`
     }
 
+    debug(`getting productivity from ${url}`)
+
     const res = await fetch(url, {
       headers: context
     })
@@ -28,9 +31,11 @@ module.exports = {
     try {
       const { classification } = await res.json()
 
+      debug(`got classification`)
+
       return classification
     } catch (e) {
-      console.log("EE:", e)
+      debug(`got error while retrieving classification: `, e)
 
       return `neutral`
     }

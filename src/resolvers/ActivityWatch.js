@@ -1,3 +1,4 @@
+const debug = require(`debug`)(`qnzl:watchers:graph:aw`)
 const fetch = require(`node-fetch`)
 
 const awUrl = process.env.AW_URL
@@ -12,11 +13,15 @@ const buildQueryString = (query) => {
 
 module.exports = {
   buckets: async (parent, args, context, info) => {
+    debug(`gettinng buckets`)
+
     const res = await fetch(`${awUrl}/api/buckets`, {
       headers: context
     })
 
     let [ buckets ] = await res.json()
+
+    debug(`got buckets ${buckets}`)
 
     const formattedBuckets = buckets.map((bucketId) => {
       return {

@@ -1,4 +1,5 @@
 const moment = require(`moment`)
+const debug = require(`debug`)(`qnzl:watchers:graph:todoist-project`)
 const fetch = require(`node-fetch`)
 
 const todoistUrl = process.env.TODOIST_URL
@@ -16,6 +17,8 @@ const queryVariables = (query) => {
 module.exports = {
   tasksToday: async (parent, args, context, info) => {
     const { id } = parent
+
+    debug(`getting tasks today for ${id}`)
 
     const res = await fetch(`${todoistUrl}/api/tasks/${id}`, {
         method: `GET`,
@@ -36,6 +39,9 @@ module.exports = {
     const { id } = parent
 
     const url = projectId ? `${todoistUrl}/api/projects/${projectId}/activity` : `${todoistUrl}/api/projects/activity`
+
+    debug(`getting activity from ${url}`)
+
     const res = await fetch(url, {
         method: `GET`,
         headers: context
@@ -43,6 +49,7 @@ module.exports = {
 
     let events = await res.json()
 
+    debug(`got events, filtering to today`)
     const startOfDay = moment().startOf(`day`)
     return events.filter((event) => {
       return startOfDay < moment(event.event_date)
@@ -54,12 +61,16 @@ module.exports = {
     const query = queryVariables({ since, until })
 
     const url = projectId ? `${todoistUrl}/api/projects/${projectId}/completed` : `${todoistUrl}/api/completed`
+
+    debug(`getting completed from ${url}`)
     const res = await fetch(`${url}${query}`, {
         method: `GET`,
         headers: context
       })
 
     let events = await res.json()
+
+    debug(`got completed events for ${projectId}`)
 
     return events
   },

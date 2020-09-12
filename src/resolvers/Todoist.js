@@ -1,4 +1,5 @@
 const moment = require(`moment`)
+const debug = require(`debug`)(`qnzl:watchers:graph:todoist`)
 const fetch = require(`node-fetch`)
 
 const todoistUrl = process.env.TODOIST_URL
@@ -18,18 +19,34 @@ module.exports = {
     const { tasks } = parent
     const { projectId: desiredProject } = args
 
+    debug(`filtering ${tasks.length} of today's tasks to projectId ${desiredProject}`)
+
     return tasks.filter((task) => {
-      if (!task.due || !task.due.date) return false
+      if (!task.due || !task.due.date) {
+        debug(`filtering task ${task.id} due to no due date`)
 
-      if (moment(task.due.date) > moment().endOf(`day`)) return false
+        return false
+      }
 
-      if (desiredProject && String(task.project_id) !== String(desiredProject)) return false
+      if (moment(task.due.date) > moment().endOf(`day`)) {
+        debug(`filtering task ${task.id} due to it being due after the end of the day`)
+
+        return false
+      }
+
+      if (desiredProject && String(task.project_id) !== String(desiredProject)) {
+        debug(`filtering task ${task.id} due to it not being part of the desired project`)
+
+        return false
+      }
 
       return true
     })
   },
   activity: async (parent, args, context, info) => {
     const { projectId } = args
+
+    debug(`getting activity for project ${projectId}`)
 
     const url = projectId ? `${todoistUrl}/api/projects/${projectId}/activity` : `${todoistUrl}/api/projects/activity`
     const res = await fetch(url, {
@@ -38,6 +55,8 @@ module.exports = {
       })
 
     let events = await res.json()
+
+    debug(`got activity for project ${projectId}`)
 
     const startOfDay = moment().startOf(`day`)
     return events.filter((event) => {
@@ -49,6 +68,8 @@ module.exports = {
 
     const query = queryVariables({ since, until })
 
+    debug(`getting completed tasks for ${projectId}, since=${since}, until=${until}`)
+
     const url = projectId ? `${todoistUrl}/api/projects/${projectId}/completed` : `${todoistUrl}/api/completed`
     const res = await fetch(`${url}${query}`, {
         method: `GET`,
@@ -56,6 +77,8 @@ module.exports = {
       })
 
     let events = await res.json()
+
+    debug(`got complete events`)
 
     return events
   },

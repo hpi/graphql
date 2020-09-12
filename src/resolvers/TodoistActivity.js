@@ -1,3 +1,4 @@
+const debug = require(`debug`)(`qnzl:watchers:graph:todoist-activity`)
 const fetch = require(`node-fetch`)
 
 const todoistUrl = process.env.TODOIST_URL
@@ -33,12 +34,16 @@ module.exports = {
     return dueDate && lastDueDate && dueDate !== lastDueDate
   },
   comments: async (parent, args, context) => {
+    debug(`getting comments for task ${parent.object_id}`)
+
     const res = await fetch(`${todoistUrl}/api/task/${parent.object_id}/comments`, {
       method: `GET`,
       headers: context
     })
 
     const { comments } = await res.json()
+
+    debug(`got ${comments.length} for ${parent.object_id}`)
 
     return comments
   }
