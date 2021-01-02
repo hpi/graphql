@@ -1,5 +1,6 @@
 const { ApolloServer } = require('apollo-server-express')
 const getResolvers = require('./resolvers')
+const bodyParser = require(`body-parser`)
 const getSchema = require('./schemas')
 const express = require('express')
 const debug = require(`debug`)(`qnzl:watchers:graph:index`)
@@ -33,7 +34,11 @@ const server = new ApolloServer({
 
 const app = express()
 
-server.applyMiddleware({ app })
+app.use(bodyParser.json())
+
+server.applyMiddleware({
+  app
+})
 
 const port = process.env.PORT || 4000
 

@@ -10,7 +10,7 @@ module.exports = {
   trello: async (parent, args, context, info) => {
     debug(`getting trello dump`)
 
-    const res = await fetch(`${trelloUrl}/api/dump`, {
+    const res = await fetch(`${trelloUrl}/api/pull`, {
         method: `GET`,
         headers: context
       })
@@ -24,7 +24,7 @@ module.exports = {
   plaid: async (parent, args, context, info) => {
     debug(`getting plaid dump`)
 
-    const res = await fetch(`${plaidUrl}/api/dump`, {
+    const res = await fetch(`${plaidUrl}/api/pull`, {
         method: `GET`,
         headers: context
       })
@@ -48,7 +48,7 @@ module.exports = {
   todoist: async (parent, args, context, info) => {
     debug(`getting todoist dump`)
 
-    const res = await fetch(`${todoistUrl}/api/dump`, {
+    const res = await fetch(`${todoistUrl}/api/pull`, {
         method: `GET`,
         headers: context
       })
