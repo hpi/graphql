@@ -19,13 +19,15 @@ const server = new ApolloServer({
     const {
       authorization,
       existaccesstoken: existAccessToken,
-      todoistaccesstoken: todoistAccessToken
+      todoistaccesstoken: todoistAccessToken,
+      trelloaccesstoken: trelloAccessToken,
     } = req.headers
 
     return {
       authorization,
       [`x-exist-access-token`]: existAccessToken,
-      [`x-todoist-access-token`]: todoistAccessToken
+      [`x-todoist-access-token`]: todoistAccessToken,
+      [`x-trello-access-token`]: trelloAccessToken,
     }
   },
   playground: true,
